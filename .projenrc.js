@@ -12,7 +12,10 @@ const project = new AwsCdkTypeScriptApp({
   name: 'aws-cdk-s3',
   cdkDependencies: [
     '@aws-cdk/aws-s3',
+    '@aws-cdk/aws-s3-deployment',
+    '@aws-cdk/aws-s3-notifications',
     '@aws-cdk/aws-iam',
+    '@aws-cdk/aws-lambda',
   ],
   deps: deps,
   devDeps: deps,
@@ -28,6 +31,9 @@ const project = new AwsCdkTypeScriptApp({
     's3',
     'json',
   ],
+  tsconfig: {
+    noImplicitAny: false,
+  },
 });
 
 project.setScript('cdkDeploy', 'cdk deploy');

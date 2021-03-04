@@ -84,6 +84,21 @@
       "type": "runtime"
     },
     {
+      "name": "@aws-cdk/aws-lambda",
+      "version": "1.91.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-s3-deployment",
+      "version": "1.91.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-s3-notifications",
+      "version": "1.91.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-cdk/aws-s3",
       "version": "1.91.0",
       "type": "runtime"
