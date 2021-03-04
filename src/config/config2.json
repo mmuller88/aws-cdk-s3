@@ -7,7 +7,7 @@
         {
           "Grantee": {
             "DisplayName": "mc1",
-            "ID": "3456777777",
+            "ID": "981237193288",
             "Type": "CanonicalUser"
           },
           "Permission": "FULL_CONTROL"
@@ -16,7 +16,7 @@
       "Lambdas": [
         {
           "Id": "id1",
-          "LambdaFunctionArn": "aws:arn:vvv",
+          "LambdaFunctionArn": "arn:aws:lambda:eu-central-1:981237193288:function:testLambda1",
           "Events": ["s3:ObjectCreated:*"],
           "Filter": {
             "Key": {

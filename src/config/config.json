@@ -6,7 +6,7 @@
         {
           "Grantee": {
             "DisplayName": "firstname.lastname",
-            "ID": "123456",
+            "ID": "981237193288",
             "Type": "CanonicalUser"
           },
           "Permission": "FULL_CONTROL"
@@ -25,7 +25,7 @@
         {
           "Grantee": {
             "DisplayName": "firstname.lastname",
-            "ID": "123456",
+            "ID": "981237193288",
             "Type": "CanonicalUser"
           },
           "Permission": "FULL_CONTROL"
@@ -44,7 +44,7 @@
         {
           "Grantee": {
             "DisplayName": "firstname.lastname",
-            "ID": "123456",
+            "ID": "981237193288",
             "Type": "CanonicalUser"
           },
           "Permission": "FULL_CONTROL"
@@ -53,7 +53,7 @@
       "Lambdas": [
         {
           "Id": "f95707a4-e49f-404a-b3c6-5f2ee881976f",
-          "LambdaFunctionArn": "arn:aws:lambda:us-east-1:123456:function:testLambda1",
+          "LambdaFunctionArn": "arn:aws:lambda:eu-central-1:981237193288:function:testLambda1",
           "Events": ["s3:ObjectRemoved:DeleteMarkerCreated"],
           "Filter": {
             "Key": {}
@@ -63,7 +63,7 @@
       "Queues": [
         {
           "Id": "ObjCreationNotification1",
-          "QueueArn": "arn:aws:sqs:us-east-1:123456:MyTestQueue1",
+          "QueueArn": "arn:aws:sqs:eu-central-1:981237193288:MyTestQueue1",
           "Events": [
             "s3:ReducedRedundancyLostObject",
             "s3:ObjectCreated:Post",
@@ -98,7 +98,7 @@
         {
           "Grantee": {
             "DisplayName": "firstname.lastname",
-            "ID": "123456",
+            "ID": "981237193288",
             "Type": "CanonicalUser"
           },
           "Permission": "FULL_CONTROL"
@@ -109,7 +109,7 @@
       "Topics": [
         {
           "Id": "Notification2",
-          "TopicArn": "arn:aws:sns:us-east-1:123456:MyTestTopic2",
+          "TopicArn": "arn:aws:sns:eu-central-1:981237193288:MyTestTopic2",
           "Events": ["s3:ObjectCreated:*"],
           "Filter": {
             "Key": {

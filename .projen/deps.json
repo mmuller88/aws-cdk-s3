@@ -104,6 +104,16 @@
       "type": "runtime"
     },
     {
+      "name": "@aws-cdk/aws-sns",
+      "version": "1.91.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-sqs",
+      "version": "1.91.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-cdk/core",
       "version": "1.91.0",
       "type": "runtime"

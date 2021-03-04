@@ -16,6 +16,8 @@ const project = new AwsCdkTypeScriptApp({
     '@aws-cdk/aws-s3-notifications',
     '@aws-cdk/aws-iam',
     '@aws-cdk/aws-lambda',
+    '@aws-cdk/aws-sqs',
+    '@aws-cdk/aws-sns',
   ],
   deps: deps,
   devDeps: deps,
@@ -32,7 +34,9 @@ const project = new AwsCdkTypeScriptApp({
     'json',
   ],
   tsconfig: {
-    noImplicitAny: false,
+    compilerOptions: {
+      noImplicitAny: false,
+    },
   },
 });
 

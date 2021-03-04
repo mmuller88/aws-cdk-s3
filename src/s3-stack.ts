@@ -3,28 +3,54 @@ import * as lambda from '@aws-cdk/aws-lambda';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as s3deploy from '@aws-cdk/aws-s3-deployment';
 import * as s3n from '@aws-cdk/aws-s3-notifications';
+import * as sns from '@aws-cdk/aws-sns';
+import * as sqs from '@aws-cdk/aws-sqs';
 import * as core from '@aws-cdk/core';
 
 export interface S3StackProps extends core.StackProps {
-  readonly Name: string;
-  readonly LifecycleRules: s3.LifecycleRule[];
-  readonly Grants: Grant[];
-  readonly Lambdas: Lambda[];
-  readonly Folders: string[];
+  readonly Buckets: Bucket[];
 }
 
-interface Lambda {
+interface Bucket {
+  readonly Name: string;
+  readonly LifeCycle?: LifeCycle[];
+  readonly Grants?: Grant[];
+  readonly Lambdas: Lambda[];
+  readonly Queues: Queue[];
+  readonly Topics: Topic[];
+  readonly Folders?: string[];
+};
+
+interface LifeCycle {
+  readonly ID: string;
+  readonly Status: string;
+  readonly NoncurrentVersionExpiration: {
+    NoncurrentDays: string;
+  };
+}
+
+interface Topic extends NotificationTarget {
+  readonly TopicArn: string;
+}
+interface Queue extends NotificationTarget {
+  readonly QueueArn: string;
+}
+
+interface NotificationTarget {
   readonly Id: string;
-  readonly LambdaFunctionArn: string;
   readonly Events: string[];
   readonly Filter: {
     Key: {
-      FilterRule: {
+      FilterRules?: {
         Name: FilterRulesName;
         Value: string;
       }[];
     };
   };
+}
+
+interface Lambda extends NotificationTarget {
+  readonly LambdaFunctionArn: string;
 }
 
 enum FilterRulesName {
@@ -53,47 +79,103 @@ export class S3Stack extends core.Stack {
   constructor(scope: core.Construct, id: string, props: S3StackProps) {
     super(scope, id, props);
 
-    const bucket = new s3.Bucket(this, 'Bucket', {
-      bucketName: props.Name,
-      removalPolicy: core.RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-      lifecycleRules: props.LifecycleRules,
-    });
-
-    for (const grant of props.Grants) {
-      if (grant.Permission === Permission.FULL_CONTROL) {
-        bucket.grantReadWrite(new iam.CanonicalUserPrincipal(grant.Grantee.ID));
-      }
-    }
-
-    for (const lambdaEl in props.Lambdas) {
-
-      const lambdaDef = props.Lambdas[lambdaEl];
-
-      const lam = lambda.Function.fromFunctionArn(this, `Lambda${lambdaEl}`, lambdaDef.LambdaFunctionArn);
-      // const dest = new s3not.LambdaDestination(lam);
-
-      for (const eventType of lambdaDef.Events) {
-        const prefixRules = lambdaDef.Filter.Key.FilterRule.filter(f => f.Name === FilterRulesName.Prefix);
-        const suffixRules = lambdaDef.Filter.Key.FilterRule.filter(f => f.Name === FilterRulesName.Suffix);
-        bucket.addEventNotification(s3.EventType[eventType], new s3n.LambdaDestination(lam), {
-          prefix: prefixRules[0]?.Value,
-          suffix: suffixRules[0]?.Value,
-        });
-      }
-
-    }
-
-    for (const folder of props.Folders) {
-      if (folder.length === 0) {
-        throw new Error('Empty folder name ist not valid');
-      }
-      new s3deploy.BucketDeployment(this, 'ArchivePrefixDeployment', {
-        sources: [s3deploy.Source.asset('./empty_folder')],
-        destinationBucket: bucket,
-        destinationKeyPrefix: `${folder}/`,
+    for (const b of props.Buckets) {
+      const bucket = new s3.Bucket(this, b.Name, {
+        bucketName: b.Name,
+        removalPolicy: core.RemovalPolicy.DESTROY,
+        autoDeleteObjects: true,
+        versioned: true,
+        lifecycleRules: b.LifeCycle ? b.LifeCycle.map(lifecycle => ({
+          id: lifecycle.ID,
+          enabled: lifecycle.Status === 'Enabled' ? true : false,
+          noncurrentVersionExpiration: core.Duration.days(Number.parseInt(lifecycle.NoncurrentVersionExpiration.NoncurrentDays)),
+        })) : undefined,
       });
-    }
 
+      if (b.Grants) {
+        for (const grant of b.Grants) {
+          if (grant.Permission === Permission.FULL_CONTROL) {
+            bucket.grantReadWrite(new iam.CanonicalUserPrincipal(grant.Grantee.ID));
+          }
+        }
+      }
+
+      for (const lambdaEl in b.Lambdas) {
+
+        const lambdaDef = b.Lambdas[lambdaEl];
+
+        const lam = lambda.Function.fromFunctionArn(this, `Lambda${lambdaEl}`, lambdaDef.LambdaFunctionArn);
+
+        for (const eventType of lambdaDef.Events) {
+          const prefixRules = lambdaDef.Filter.Key.FilterRules?.filter(f => f.Name === FilterRulesName.Prefix);
+          const suffixRules = lambdaDef.Filter.Key.FilterRules?.filter(f => f.Name === FilterRulesName.Suffix);
+          // console.log(`prefixRules=${prefixRules}`);
+          // console.log(`suffixRules=${suffixRules}`);
+          if (prefixRules && prefixRules[0].Value != '' || suffixRules && suffixRules[0].Value != '') {
+            bucket.addEventNotification(s3.EventType[eventType], new s3n.LambdaDestination(lam), {
+              prefix: prefixRules?.[0]?.Value,
+              suffix: suffixRules?.[0]?.Value,
+            });
+          } else {
+            bucket.addEventNotification(s3.EventType[eventType], new s3n.LambdaDestination(lam));
+          }
+        }
+      }
+
+      for (const queueEl in b.Queues) {
+
+        const queueDef = b.Queues[queueEl];
+
+        const sq = sqs.Queue.fromQueueArn(this, `SQS${queueEl}`, queueDef.QueueArn);
+
+        for (const eventType of queueDef.Events) {
+          const prefixRules = queueDef.Filter.Key.FilterRules?.filter(f => f.Name === FilterRulesName.Prefix);
+          const suffixRules = queueDef.Filter.Key.FilterRules?.filter(f => f.Name === FilterRulesName.Suffix);
+          if (prefixRules && prefixRules[0].Value != '' || suffixRules && suffixRules[0].Value != '') {
+            bucket.addEventNotification(s3.EventType[eventType], new s3n.SqsDestination(sq), {
+              prefix: prefixRules?.[0]?.Value,
+              suffix: suffixRules?.[0]?.Value,
+            });
+          } else {
+            bucket.addEventNotification(s3.EventType[eventType], new s3n.SqsDestination(sq));
+          }
+        }
+      }
+
+      for (const snsEl in b.Topics) {
+
+        const snsDef = b.Topics[snsEl];
+
+        const sn = sns.Topic.fromTopicArn(this, `SNS${snsEl}`, snsDef.TopicArn);
+
+        for (const eventType of snsDef.Events) {
+          const prefixRules = snsDef.Filter.Key.FilterRules?.filter(f => f.Name === FilterRulesName.Prefix);
+          const suffixRules = snsDef.Filter.Key.FilterRules?.filter(f => f.Name === FilterRulesName.Suffix);
+          console.log(`prefixRules=${JSON.stringify(prefixRules)}`);
+          console.log(`suffixRules=${JSON.stringify(suffixRules)}`);
+          if (prefixRules && prefixRules[0].Value != '' || suffixRules && suffixRules[0].Value != '') {
+            bucket.addEventNotification(s3.EventType[eventType], new s3n.SnsDestination(sn), {
+              prefix: prefixRules?.[0]?.Value,
+              suffix: suffixRules?.[0]?.Value,
+            });
+          } else {
+            bucket.addEventNotification(s3.EventType[eventType], new s3n.SnsDestination(sn));
+          }
+        }
+      }
+
+      if (b.Folders) {
+        for (const folder of b.Folders) {
+          if (folder.length === 0) {
+            break;
+          }
+          new s3deploy.BucketDeployment(this, `${b.Name}-${folder}`, {
+            sources: [s3deploy.Source.asset('./src/empty_folder')],
+            destinationBucket: bucket,
+            destinationKeyPrefix: `${folder}/`,
+          });
+        }
+      }
+    }
   }
 }
