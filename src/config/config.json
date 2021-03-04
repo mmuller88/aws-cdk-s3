@@ -1,0 +1,134 @@
+{
+  "Buckets": [
+    {
+      "Name": "bucket1",
+      "Grants": [
+        {
+          "Grantee": {
+            "DisplayName": "firstname.lastname",
+            "ID": "123456",
+            "Type": "CanonicalUser"
+          },
+          "Permission": "FULL_CONTROL"
+        }
+      ],
+      "Lambdas": [],
+      "Queues": [],
+      "Topics": [],
+      "Version": "Enabled",
+      "LifeCycle": []
+    },
+    {
+      "Name": "bucket2",
+      "Folders": [],
+      "Grants": [
+        {
+          "Grantee": {
+            "DisplayName": "firstname.lastname",
+            "ID": "123456",
+            "Type": "CanonicalUser"
+          },
+          "Permission": "FULL_CONTROL"
+        }
+      ],
+      "Lambdas": [],
+      "Queues": [],
+      "Topics": [],
+      "Version": "Enabled",
+      "LifeCycle": []
+    },
+    {
+      "Name": "bucket3",
+      "Folders": ["test", "unsorted"],
+      "Grants": [
+        {
+          "Grantee": {
+            "DisplayName": "firstname.lastname",
+            "ID": "123456",
+            "Type": "CanonicalUser"
+          },
+          "Permission": "FULL_CONTROL"
+        }
+      ],
+      "Lambdas": [
+        {
+          "Id": "f95707a4-e49f-404a-b3c6-5f2ee881976f",
+          "LambdaFunctionArn": "arn:aws:lambda:us-east-1:123456:function:testLambda1",
+          "Events": ["s3:ObjectRemoved:DeleteMarkerCreated"],
+          "Filter": {
+            "Key": {}
+          }
+        }
+      ],
+      "Queues": [
+        {
+          "Id": "ObjCreationNotification1",
+          "QueueArn": "arn:aws:sqs:us-east-1:123456:MyTestQueue1",
+          "Events": [
+            "s3:ReducedRedundancyLostObject",
+            "s3:ObjectCreated:Post",
+            "s3:ObjectCreated:Copy",
+            "s3:ObjectRemoved:Delete",
+            "s3:ObjectRestore:Post",
+            "s3:Replication:OperationMissedThreshold",
+            "s3:Replication:OperationReplicatedAfterThreshold",
+            "s3:Replication:OperationNotTracked",
+            "s3:Replication:OperationFailedReplication"
+          ],
+          "Filter": {
+            "Key": {}
+          }
+        }
+      ],
+      "Topics": [],
+      "Version": "Enabled",
+      "LifeCycle": [
+        {
+          "ID": "LifeCycleRule1",
+          "Status": "Enabled",
+          "NoncurrentVersionExpiration": {
+            "NoncurrentDays": "30"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "simpleappstack-mysimpleappbucket6b59014a-14sryphmz3oue",
+      "Grants": [
+        {
+          "Grantee": {
+            "DisplayName": "firstname.lastname",
+            "ID": "123456",
+            "Type": "CanonicalUser"
+          },
+          "Permission": "FULL_CONTROL"
+        }
+      ],
+      "Lambdas": [],
+      "Queues": [],
+      "Topics": [
+        {
+          "Id": "Notification2",
+          "TopicArn": "arn:aws:sns:us-east-1:123456:MyTestTopic2",
+          "Events": ["s3:ObjectCreated:*"],
+          "Filter": {
+            "Key": {
+              "FilterRules": [
+                {
+                  "Name": "Prefix",
+                  "Value": ""
+                },
+                {
+                  "Name": "Suffix",
+                  "Value": ""
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "Version": "",
+      "LifeCycle": []
+    }
+  ]
+}

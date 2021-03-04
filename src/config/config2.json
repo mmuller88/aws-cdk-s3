@@ -1,0 +1,42 @@
+{
+  "Buckets": [
+    {
+      "Name": "com-bucket1",
+      "Folders": ["emails", "configurations"],
+      "Grants": [
+        {
+          "Grantee": {
+            "DisplayName": "mc1",
+            "ID": "3456777777",
+            "Type": "CanonicalUser"
+          },
+          "Permission": "FULL_CONTROL"
+        }
+      ],
+      "Lambdas": [
+        {
+          "Id": "id1",
+          "LambdaFunctionArn": "aws:arn:vvv",
+          "Events": ["s3:ObjectCreated:*"],
+          "Filter": {
+            "Key": {
+              "FilterRules": [
+                {
+                  "Name": "Prefix",
+                  "Value": "tm1/"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "Queues": "",
+      "Topics": "",
+      "Version": ""
+    },
+    {
+      "Name": "com-bucket2",
+      "Folders": [""]
+    }
+  ]
+}
