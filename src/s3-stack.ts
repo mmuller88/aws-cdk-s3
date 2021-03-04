@@ -111,13 +111,14 @@ export class S3Stack extends core.Stack {
           const suffixRules = lambdaDef.Filter.Key.FilterRules?.filter(f => f.Name === FilterRulesName.Suffix);
           // console.log(`prefixRules=${prefixRules}`);
           // console.log(`suffixRules=${suffixRules}`);
+          eventType;
           if (prefixRules && prefixRules[0].Value != '' || suffixRules && suffixRules[0].Value != '') {
-            bucket.addEventNotification(s3.EventType[eventType], new s3n.LambdaDestination(lam), {
+            bucket.addEventNotification(eventType as s3.EventType, new s3n.LambdaDestination(lam), {
               prefix: prefixRules?.[0]?.Value,
               suffix: suffixRules?.[0]?.Value,
             });
           } else {
-            bucket.addEventNotification(s3.EventType[eventType], new s3n.LambdaDestination(lam));
+            bucket.addEventNotification(eventType as s3.EventType, new s3n.LambdaDestination(lam));
           }
         }
       }
@@ -132,12 +133,12 @@ export class S3Stack extends core.Stack {
           const prefixRules = queueDef.Filter.Key.FilterRules?.filter(f => f.Name === FilterRulesName.Prefix);
           const suffixRules = queueDef.Filter.Key.FilterRules?.filter(f => f.Name === FilterRulesName.Suffix);
           if (prefixRules && prefixRules[0].Value != '' || suffixRules && suffixRules[0].Value != '') {
-            bucket.addEventNotification(s3.EventType[eventType], new s3n.SqsDestination(sq), {
+            bucket.addEventNotification(eventType as s3.EventType, new s3n.SqsDestination(sq), {
               prefix: prefixRules?.[0]?.Value,
               suffix: suffixRules?.[0]?.Value,
             });
           } else {
-            bucket.addEventNotification(s3.EventType[eventType], new s3n.SqsDestination(sq));
+            bucket.addEventNotification(eventType as s3.EventType, new s3n.SqsDestination(sq));
           }
         }
       }
@@ -154,12 +155,12 @@ export class S3Stack extends core.Stack {
           console.log(`prefixRules=${JSON.stringify(prefixRules)}`);
           console.log(`suffixRules=${JSON.stringify(suffixRules)}`);
           if (prefixRules && prefixRules[0].Value != '' || suffixRules && suffixRules[0].Value != '') {
-            bucket.addEventNotification(s3.EventType[eventType], new s3n.SnsDestination(sn), {
+            bucket.addEventNotification(eventType as s3.EventType, new s3n.SnsDestination(sn), {
               prefix: prefixRules?.[0]?.Value,
               suffix: suffixRules?.[0]?.Value,
             });
           } else {
-            bucket.addEventNotification(s3.EventType[eventType], new s3n.SnsDestination(sn));
+            bucket.addEventNotification(eventType as s3.EventType, new s3n.SnsDestination(sn));
           }
         }
       }
