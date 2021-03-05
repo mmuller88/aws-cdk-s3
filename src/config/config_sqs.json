@@ -1,7 +1,7 @@
 {
   "Buckets": [
     {
-      "Name": "buckettts3lambdatest",
+      "Name": "buckettts3sqstest",
       "Folders": ["test", "unsorted"],
       "Grants": [
         {
@@ -13,16 +13,7 @@
           "Permission": "FULL_CONTROL"
         }
       ],
-      "Lambdas": [
-        {
-          "Id": "f95707a4-e49f-404a-b3c6-5f2ee881976f",
-          "LambdaFunctionArn": "arn:aws:lambda:eu-central-1:981237193288:function:helloworld",
-          "Events": ["s3:ObjectRemoved:DeleteMarkerCreated"],
-          "Filter": {
-            "Key": {}
-          }
-        }
-      ],
+      "Lambdas": [],
       "Queues": [
         {
           "Id": "ObjCreationNotification1",

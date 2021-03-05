@@ -77,3 +77,25 @@ lambda:InvokeFunction for Lambdas
   ]
 }
 ```
+
+## SQS
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": [
+        "sqs:SendMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl"
+      ],
+      "Resource": "arn:aws:sqs:eu-central-1:981237193288:s3-stack-dev-Queue4A7E3555-1N4N9OW9C9OFK"
+    }
+  ]
+}
+```

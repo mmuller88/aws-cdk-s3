@@ -85,6 +85,7 @@ export class S3Stack extends core.Stack {
     //   code: new lambda.InlineCode('foo'),
     //   handler: 'index.handler',
     // });
+    // const queue = new sqs.Queue(this, 'Queue');
 
     for (const b of props.Buckets) {
       const bucket = new s3.Bucket(this, b.Name, {
