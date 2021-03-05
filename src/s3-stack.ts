@@ -119,6 +119,16 @@ export class S3Stack extends core.Stack {
         const lambdaDef = b.Lambdas[lambdaEl];
 
         const lam = lambda.Function.fromFunctionArn(this, `Lambda${lambdaEl}`, lambdaDef.LambdaFunctionArn);
+        // lam.addToRolePolicy(new iam.PolicyStatement({
+        //   principals: [new iam.ServicePrincipal('s3.amazonaws.com')],
+        //   actions: ['lambda:InvokeFunction'],
+        //   resources: [lam.functionArn],
+        // }));
+
+        // lam.addPermission('lambda-policy', {
+        //   principal: new iam.ServicePrincipal('s3.amazonaws.com'),
+        //   action: 'lambda:InvokeFunction',
+        // });
 
         for (const eventType of lambdaDef.Events) {
           const prefixRules = lambdaDef.Filter.Key.FilterRules?.filter(f => f.Name === FilterRulesName.Prefix);

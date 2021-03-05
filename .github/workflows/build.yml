@@ -23,6 +23,6 @@ jobs:
           git config user.name "Auto-bump"
           git config user.email "github-actions@github.com"
       - name: Build
-        run: npx projen build
+        run: yarn run build
       - name: Anti-tamper check
         run: git diff --exit-code

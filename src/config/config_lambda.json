@@ -23,26 +23,7 @@
           }
         }
       ],
-      "Queues": [
-        {
-          "Id": "ObjCreationNotification1",
-          "QueueArn": "arn:aws:sqs:eu-central-1:981237193288:ahatestq",
-          "Events": [
-            "s3:ReducedRedundancyLostObject",
-            "s3:ObjectCreated:Post",
-            "s3:ObjectCreated:Copy",
-            "s3:ObjectRemoved:Delete",
-            "s3:ObjectRestore:Post",
-            "s3:Replication:OperationMissedThreshold",
-            "s3:Replication:OperationReplicatedAfterThreshold",
-            "s3:Replication:OperationNotTracked",
-            "s3:Replication:OperationFailedReplication"
-          ],
-          "Filter": {
-            "Key": {}
-          }
-        }
-      ],
+      "Queues": [],
       "Topics": [],
       "Version": "Enabled",
       "LifeCycle": [

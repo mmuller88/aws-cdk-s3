@@ -1,4 +1,4 @@
-const { AwsCdkTypeScriptApp } = require('projen');
+const { AwsCdkTypeScriptApp, NpmTaskExecution } = require('projen');
 
 const deps = [];
 
@@ -10,6 +10,7 @@ const project = new AwsCdkTypeScriptApp({
   defaultReleaseBranch: 'main',
   jsiiFqn: 'projen.AwsCdkTypeScriptApp',
   name: 'aws-cdk-s3',
+  npmTaskExecution: NpmTaskExecution.SHELL,
   cdkDependencies: [
     '@aws-cdk/aws-s3',
     '@aws-cdk/aws-s3-deployment',
