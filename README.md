@@ -24,3 +24,11 @@ For destroy run:
 ```
 yarn destroy
 ```
+
+# Misc
+
+For a fast deploy iterating use
+
+```
+
+```

@@ -16,7 +16,7 @@
       "Lambdas": [
         {
           "Id": "id1",
-          "LambdaFunctionArn": "arn:aws:lambda:eu-central-1:981237193288:function:testLambda1",
+          "LambdaFunctionArn": "arn:aws:lambda:eu-central-1:981237193288:function:todolist-pipeline-ui-BuildBadgebadgeA0B40829-10556MSKW8WHU",
           "Events": ["s3:ObjectCreated:*"],
           "Filter": {
             "Key": {

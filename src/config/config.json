@@ -1,7 +1,7 @@
 {
   "Buckets": [
     {
-      "Name": "bucket1",
+      "Name": "bucket1aaasse",
       "Grants": [
         {
           "Grantee": {
@@ -19,7 +19,7 @@
       "LifeCycle": []
     },
     {
-      "Name": "bucket2",
+      "Name": "bucket2-uuuups",
       "Folders": [],
       "Grants": [
         {
@@ -38,7 +38,7 @@
       "LifeCycle": []
     },
     {
-      "Name": "bucket3",
+      "Name": "bucket311232aa",
       "Folders": ["test", "unsorted"],
       "Grants": [
         {
@@ -53,7 +53,7 @@
       "Lambdas": [
         {
           "Id": "f95707a4-e49f-404a-b3c6-5f2ee881976f",
-          "LambdaFunctionArn": "arn:aws:lambda:eu-central-1:981237193288:function:testLambda1",
+          "LambdaFunctionArn": "arn:aws:lambda:eu-central-1:981237193288:function:todolist-pipeline-ui-BuildBadgebadgeA0B40829-10556MSKW8WHU",
           "Events": ["s3:ObjectRemoved:DeleteMarkerCreated"],
           "Filter": {
             "Key": {}
@@ -63,7 +63,7 @@
       "Queues": [
         {
           "Id": "ObjCreationNotification1",
-          "QueueArn": "arn:aws:sqs:eu-central-1:981237193288:MyTestQueue1",
+          "QueueArn": "arn:aws:sqs:eu-central-1:981237193288:ahatestq",
           "Events": [
             "s3:ReducedRedundancyLostObject",
             "s3:ObjectCreated:Post",
@@ -93,7 +93,7 @@
       ]
     },
     {
-      "Name": "simpleappstack-mysimpleappbucket6b59014a-14sryphmz3oue",
+      "Name": "simpleappstack-mysimples",
       "Grants": [
         {
           "Grantee": {
@@ -109,7 +109,7 @@
       "Topics": [
         {
           "Id": "Notification2",
-          "TopicArn": "arn:aws:sns:eu-central-1:981237193288:MyTestTopic2",
+          "TopicArn": "arn:aws:sns:eu-central-1:981237193288:oitop.fifo",
           "Events": ["s3:ObjectCreated:*"],
           "Filter": {
             "Key": {
