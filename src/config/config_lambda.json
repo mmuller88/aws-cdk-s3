@@ -1,0 +1,40 @@
+{
+  "Buckets": [
+    {
+      "Name": "buckettts3lambdatest",
+      "Folders": ["test", "unsorted"],
+      "Grants": [
+        {
+          "Grantee": {
+            "DisplayName": "firstname.lastname",
+            "ID": "4b8b55688f2d7f0264d17bd410644e070191c896d8a589e7f8042ca8cd2cd2d4",
+            "Type": "CanonicalUser"
+          },
+          "Permission": "FULL_CONTROL"
+        }
+      ],
+      "Lambdas": [
+        {
+          "Id": "f95707a4-e49f-404a-b3c6-5f2ee881976f",
+          "LambdaFunctionArn": "arn:aws:lambda:eu-central-1:981237193288:function:helloworld",
+          "Events": ["s3:ObjectRemoved:DeleteMarkerCreated"],
+          "Filter": {
+            "Key": {}
+          }
+        }
+      ],
+      "Queues": [],
+      "Topics": [],
+      "Version": "Enabled",
+      "LifeCycle": [
+        {
+          "ID": "LifeCycleRule1",
+          "Status": "Enabled",
+          "NoncurrentVersionExpiration": {
+            "NoncurrentDays": "30"
+          }
+        }
+      ]
+    }
+  ]
+}

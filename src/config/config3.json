@@ -1,42 +1,42 @@
 {
   "Buckets": [
     {
-      "Name": "com-bucket1231",
-      "Folders": ["emails", "configurations"],
+      "Name": "snstestttbucket12",
       "Grants": [
         {
           "Grantee": {
-            "DisplayName": "mc1",
+            "DisplayName": "firstname.lastname",
             "ID": "4b8b55688f2d7f0264d17bd410644e070191c896d8a589e7f8042ca8cd2cd2d4",
             "Type": "CanonicalUser"
           },
           "Permission": "FULL_CONTROL"
         }
       ],
-      "Lambdas": [
+      "Lambdas": [],
+      "Queues": [],
+      "Topics": [
         {
-          "Id": "id1",
-          "LambdaFunctionArn": "arn:aws:lambda:eu-central-1:981237193288:function:todolist-pipeline-ui-BuildBadgebadgeA0B40829-10556MSKW8WHU",
+          "Id": "Notification2",
+          "TopicArn": "arn:aws:sns:eu-central-1:981237193288:standardsns",
           "Events": ["s3:ObjectCreated:*"],
           "Filter": {
             "Key": {
               "FilterRules": [
                 {
                   "Name": "Prefix",
-                  "Value": "tm1/"
+                  "Value": ""
+                },
+                {
+                  "Name": "Suffix",
+                  "Value": ""
                 }
               ]
             }
           }
         }
       ],
-      "Queues": "",
-      "Topics": "",
-      "Version": ""
-    },
-    {
-      "Name": "com-bucket2",
-      "Folders": [""]
+      "Version": "",
+      "LifeCycle": []
     }
   ]
 }

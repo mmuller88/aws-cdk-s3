@@ -6,7 +6,7 @@
         {
           "Grantee": {
             "DisplayName": "firstname.lastname",
-            "ID": "981237193288",
+            "ID": "4b8b55688f2d7f0264d17bd410644e070191c896d8a589e7f8042ca8cd2cd2d4",
             "Type": "CanonicalUser"
           },
           "Permission": "FULL_CONTROL"
@@ -25,7 +25,7 @@
         {
           "Grantee": {
             "DisplayName": "firstname.lastname",
-            "ID": "981237193288",
+            "ID": "4b8b55688f2d7f0264d17bd410644e070191c896d8a589e7f8042ca8cd2cd2d4",
             "Type": "CanonicalUser"
           },
           "Permission": "FULL_CONTROL"
@@ -44,7 +44,7 @@
         {
           "Grantee": {
             "DisplayName": "firstname.lastname",
-            "ID": "981237193288",
+            "ID": "4b8b55688f2d7f0264d17bd410644e070191c896d8a589e7f8042ca8cd2cd2d4",
             "Type": "CanonicalUser"
           },
           "Permission": "FULL_CONTROL"
@@ -53,7 +53,7 @@
       "Lambdas": [
         {
           "Id": "f95707a4-e49f-404a-b3c6-5f2ee881976f",
-          "LambdaFunctionArn": "arn:aws:lambda:eu-central-1:981237193288:function:todolist-pipeline-ui-BuildBadgebadgeA0B40829-10556MSKW8WHU",
+          "LambdaFunctionArn": "arn:aws:lambda:eu-central-1:981237193288:function:helloworld",
           "Events": ["s3:ObjectRemoved:DeleteMarkerCreated"],
           "Filter": {
             "Key": {}
@@ -98,7 +98,7 @@
         {
           "Grantee": {
             "DisplayName": "firstname.lastname",
-            "ID": "981237193288",
+            "ID": "4b8b55688f2d7f0264d17bd410644e070191c896d8a589e7f8042ca8cd2cd2d4",
             "Type": "CanonicalUser"
           },
           "Permission": "FULL_CONTROL"
@@ -109,7 +109,7 @@
       "Topics": [
         {
           "Id": "Notification2",
-          "TopicArn": "arn:aws:sns:eu-central-1:981237193288:oitop.fifo",
+          "TopicArn": "arn:aws:sns:eu-central-1:981237193288:standardsns",
           "Events": ["s3:ObjectCreated:*"],
           "Filter": {
             "Key": {

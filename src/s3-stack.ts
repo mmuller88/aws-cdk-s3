@@ -79,11 +79,18 @@ export class S3Stack extends core.Stack {
   constructor(scope: core.Construct, id: string, props: S3StackProps) {
     super(scope, id, props);
 
+    // const topic = new sns.Topic(this, 'Topic');
+    // const lambda2 = new lambda.Function(this, 'lambda', {
+    //   runtime: lambda.Runtime.NODEJS_12_X,
+    //   code: new lambda.InlineCode('foo'),
+    //   handler: 'index.handler',
+    // });
+
     for (const b of props.Buckets) {
       const bucket = new s3.Bucket(this, b.Name, {
         bucketName: b.Name,
-        removalPolicy: core.RemovalPolicy.DESTROY,
-        autoDeleteObjects: true,
+        // removalPolicy: core.RemovalPolicy.DESTROY,
+        // autoDeleteObjects: true,
         versioned: true,
         lifecycleRules: b.LifeCycle ? b.LifeCycle.map(lifecycle => ({
           id: lifecycle.ID,
@@ -91,6 +98,12 @@ export class S3Stack extends core.Stack {
           noncurrentVersionExpiration: core.Duration.days(Number.parseInt(lifecycle.NoncurrentVersionExpiration.NoncurrentDays)),
         })) : undefined,
       });
+
+      // bucket.addToResourcePolicy(new iam.PolicyStatement({
+      //   principals: [new iam.ServicePrincipal('s3.amazonaws.com')],
+      //   actions: ['*'],
+      //   resources: ['*'],
+      // }));
 
       if (b.Grants) {
         for (const grant of b.Grants) {
@@ -119,6 +132,7 @@ export class S3Stack extends core.Stack {
             });
           } else {
             bucket.addEventNotification(eventType as s3.EventType, new s3n.LambdaDestination(lam));
+            // bucket.addObjectCreatedNotification(new s3n.LambdaDestination(lambda2));
           }
         }
       }
