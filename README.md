@@ -37,7 +37,7 @@ yes | yarn cdkDestroy && yarn cdkDeploy --require-approval never
 
 ## SNS
 
-sns:Publish must be allowed e.g:
+sns:Publish must be allowed. It can be added manually in the AWS Console e.g:
 
 ```json
 {
@@ -58,7 +58,7 @@ sns:Publish must be allowed e.g:
 
 ## Lambda
 
-lambda:InvokeFunction for Lambdas
+lambda:InvokeFunction for Lambdas . How to add the policy is explained here https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html
 
 ```json
 {
@@ -79,6 +79,8 @@ lambda:InvokeFunction for Lambdas
 ```
 
 ## SQS
+
+It can be added manually in the AWS Console
 
 ```json
 {
