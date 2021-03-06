@@ -19,7 +19,13 @@ interface Bucket {
   readonly Queues: Queue[];
   readonly Topics: Topic[];
   readonly Folders?: string[];
+  readonly Version: VersionedType;
 };
+
+enum VersionedType {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
 
 interface LifeCycle {
   readonly ID: string;
@@ -92,7 +98,7 @@ export class S3Stack extends core.Stack {
         bucketName: b.Name,
         // removalPolicy: core.RemovalPolicy.DESTROY,
         // autoDeleteObjects: true,
-        versioned: true,
+        versioned: b.Version === VersionedType.Enabled,
         lifecycleRules: b.LifeCycle ? b.LifeCycle.map(lifecycle => ({
           id: lifecycle.ID,
           enabled: lifecycle.Status === 'Enabled' ? true : false,
