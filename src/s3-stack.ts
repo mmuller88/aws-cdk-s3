@@ -19,8 +19,14 @@ interface Bucket {
   readonly Queues: Queue[];
   readonly Topics: Topic[];
   readonly Folders?: string[];
+  readonly Tags?: Tag[];
   readonly Version: VersionedType;
 };
+
+interface Tag {
+  Key: string,
+  Value: string,
+}
 
 enum VersionedType {
   Enabled = 'Enabled',
@@ -105,6 +111,12 @@ export class S3Stack extends core.Stack {
           noncurrentVersionExpiration: core.Duration.days(Number.parseInt(lifecycle.NoncurrentVersionExpiration.NoncurrentDays)),
         })) : undefined,
       });
+
+      if (b.Tags) {
+        for (const tag of b.Tags) {
+          core.Tags.of(bucket).add(tag.Key, tag.Value);
+        }
+      }
 
       // bucket.addToResourcePolicy(new iam.PolicyStatement({
       //   principals: [new iam.ServicePrincipal('s3.amazonaws.com')],

@@ -9,7 +9,7 @@ const devEnv = {
 const app = new App();
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const config: S3StackProps = require('./config/config_lambda.json');
+const config: S3StackProps = require('./config/config_tags.json');
 
 new S3Stack(app, 's3-stack-dev', {
   env: devEnv,

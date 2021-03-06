@@ -1,0 +1,26 @@
+{
+  "Buckets": [
+    {
+      "Name": "testbuckettaggs",
+      "Grants": [
+        {
+          "Grantee": {
+            "DisplayName": "mc1",
+            "ID": "4b8b55688f2d7f0264d17bd410644e070191c896d8a589e7f8042ca8cd2cd2d4",
+            "Type": "CanonicalUser"
+          },
+          "Permission": "FULL_CONTROL"
+        }
+      ],
+      "Lambdas": [],
+      "Queues": "",
+      "Topics": "",
+      "Version": "Enabled",
+      "Tags": [
+        { "Key": "key1", "Value": "value1" },
+        { "Key": "key2", "Value": "value2" },
+        { "Key": "key3", "Value": "value3" }
+      ]
+    }
+  ]
+}
