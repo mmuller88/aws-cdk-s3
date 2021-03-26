@@ -5,6 +5,7 @@
     "start": "npx projen start",
     "cdkDeploy": "cdk deploy",
     "cdkDestroy": "cdk destroy",
+    "cdkSynth": "cdk synth",
     "clobber": "( PATH=\"$(npx -c \"node -e \\\"console.log(process.env.PATH)\\\"\")\"; BRANCH=\"$(git branch --show-current)\";  ! ( git diff --exit-code > /dev/null ) || ( ( echo save current HEAD in \"scratch\" branch ) && ( git checkout -b scratch ) && ( git checkout $BRANCH ) && ( echo fetch latest changes from origin ) && ( git fetch origin ) && ( echo hard reset to origin commit ) && ( git reset --hard origin/$BRANCH ) && ( echo clean all untracked files ) && ( git clean -fdx ) ) )",
     "compile": "( PATH=\"$(npx -c \"node -e \\\"console.log(process.env.PATH)\\\"\")\";   )",
     "test:compile": "( PATH=\"$(npx -c \"node -e \\\"console.log(process.env.PATH)\\\"\")\";  ( tsc --noEmit --project tsconfig.jest.json ) )",

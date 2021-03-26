@@ -1,7 +1,7 @@
 {
   "Buckets": [
     {
-      "Name": "testbuckettaggs",
+      "Name": "testbucket-{0}-tags",
       "Grants": [
         {
           "Grantee": {

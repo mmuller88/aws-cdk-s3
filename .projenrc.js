@@ -43,5 +43,6 @@ const project = new AwsCdkTypeScriptApp({
 
 project.setScript('cdkDeploy', 'cdk deploy');
 project.setScript('cdkDestroy', 'cdk destroy');
+project.setScript('cdkSynth', 'cdk synth');
 
 project.synth();
