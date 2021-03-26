@@ -1,0 +1,36 @@
+{
+    "Buckets": [
+        {
+            "Name": "com-awshub-{0}-curated",
+            "Folders": [
+                "folder1/folder2",
+                "folder3/folder4/folder5"
+            ],
+            "versioned":"Enabled",
+			"Tags": [
+                { "Key": "key1", "Value": "value1" },
+                { "Key": "key2", "Value": "value2" },
+                { "Key": "key3", "Value": "value3" }
+            ],
+			"LifeCycle": [
+                {
+                    "ID": "LifeCycleRule1",
+                    "Status": "Enabled",
+                    "NoncurrentVersionExpiration": {
+                        "NoncurrentDays": "60"
+                    }
+                }
+            ],
+			"Grants": [
+                {
+                    "Grantee": {
+                        "DisplayName": "accountName",
+                        "ID": "1234568",
+                        "Type": "CanonicalUser"
+                    },
+                    "Permission": "FULL_CONTROL"
+                }
+            ]			
+        }
+    ]
+}

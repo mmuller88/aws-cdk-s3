@@ -1,0 +1,45 @@
+{
+    "Events":
+	[
+		{
+			"Name": "awshub-job-events-int-pub-{0}",
+			"Arn": "arn:aws:events:us-east-1:123456:rule/awshub-{0}-job-events-int-pub",
+			"EventPattern": 
+				{
+					"source": ["aws.glue"],
+					"detail-type": ["Job State Change"],
+					"detail": 
+					{
+						"state": ["FAILED", "SUCCEEDED"],
+						"jobName": [
+						{
+							"prefix": "awshub-{0}-curated-to"
+						}]
+					}
+				},
+			"State": "ENABLED",
+			"Description": "Description1",
+			"EventBusName": "default"
+		},
+		{
+			"Name": "awshub-process-incoming-file-{0}",
+			"Arn": "arn:aws:events:us-east-1:123456:rule/awshub-{0}-process-incoming-file",
+			"State": "ENABLED",
+			"Description": "Need to add description",
+			"ScheduleExpression": "cron(*/15 */1 ? * * *)",
+			"EventBusName": "default"
+		},
+		{
+			"Name": "awshub-wf-monitor-{0}",
+			"Arn": "arn:aws:events:us-east-1:123456:rule/awshub-{0}-wf-monitor-sit",
+			"EventPattern": 
+				{
+				  "source": ["aws.cloudtrail", "aws.s3", "aws.glue"],
+				  "detail-type": ["AWS API Call via CloudTrail"]
+				}",
+			"State": "ENABLED",
+			"EventBusName": "default"}
+		]	
+	
+}
+

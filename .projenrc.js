@@ -19,6 +19,8 @@ const project = new AwsCdkTypeScriptApp({
     '@aws-cdk/aws-lambda',
     '@aws-cdk/aws-sqs',
     '@aws-cdk/aws-sns',
+    '@aws-cdk/aws-glue',
+    '@aws-cdk/aws-sns-subscriptions',
   ],
   deps: deps,
   devDeps: deps,

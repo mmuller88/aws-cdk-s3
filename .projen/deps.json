@@ -79,6 +79,11 @@
       "type": "runtime"
     },
     {
+      "name": "@aws-cdk/aws-glue",
+      "version": "1.91.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-cdk/aws-iam",
       "version": "1.91.0",
       "type": "runtime"
@@ -100,6 +105,11 @@
     },
     {
       "name": "@aws-cdk/aws-s3",
+      "version": "1.91.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-sns-subscriptions",
       "version": "1.91.0",
       "type": "runtime"
     },

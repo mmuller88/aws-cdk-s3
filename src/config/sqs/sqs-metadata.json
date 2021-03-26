@@ -1,0 +1,41 @@
+{
+  "Queues": [
+    {
+        "QueueName": "awshub-{0}-passthru-queue",
+        "DisplayName": "test1",
+		"DelaySeconds" : "20",
+		"MessageRetentionPeriod" : "30",
+		"VisibilityTimeout" : "40",
+		 "Tags": [
+                { "Key": "key1", "Value": "value1" },
+                { "Key": "key2", "Value": "value2" },
+                { "Key": "key3", "Value": "value3" }
+              ]
+    },        
+    {
+        "QueueName": "awshub-{0}-notification-queue",
+        "DisplayName": "",
+		"DelaySeconds" : "20",
+		"MessageRetentionPeriod" : "30",
+		"VisibilityTimeout" : "40",
+		"Tags": []
+		 
+    },        
+    {
+        "QueueName": "awshub-{0}-stage-queue",
+        "DisplayName": "test2",
+		"DelaySeconds" : "20",
+		 "MessageRetentionPeriod" : "30",
+		"VisibilityTimeout" : "40",
+		 "Tags": [
+                { "Key": "key1", "Value": "value1" },
+                { "Key": "key2", "Value": "value2" },
+                { "Key": "key3", "Value": "value3" }
+            ]
+	}
+]
+}
+
+
+     
+

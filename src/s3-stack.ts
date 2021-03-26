@@ -102,8 +102,8 @@ export class S3Stack extends core.Stack {
     for (const b of props.Buckets) {
       const bucket = new s3.Bucket(this, b.Name, {
         bucketName: b.Name,
-        // removalPolicy: core.RemovalPolicy.DESTROY,
-        // autoDeleteObjects: true,
+        removalPolicy: core.RemovalPolicy.DESTROY,
+        autoDeleteObjects: true,
         versioned: b.Version === VersionedType.Enabled,
         lifecycleRules: b.LifeCycle ? b.LifeCycle.map(lifecycle => ({
           id: lifecycle.ID,

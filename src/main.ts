@@ -1,5 +1,8 @@
 import { App } from '@aws-cdk/core';
-import { S3Stack, S3StackProps } from './s3-stack';
+import { LambdaStack } from './lambda-stack';
+// import { SnsStack } from './sns-stack';
+// import { S3Stack } from './s3-stack';
+// import { SqsStack } from './sqs-stack';
 
 const devEnv = {
   account: '981237193288',
@@ -8,16 +11,32 @@ const devEnv = {
 
 const app = new App();
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const rawJSON = require('./config/config_tags.json');
-// CDK SYNTH -c env=sit, then the topic name "awshub-{0}-processing" should be replaced with "awshub-sit-processing".
-// console.log(`env=${app.node.tryGetContext('env')}`);
-const replacedJSON = JSON.parse(JSON.stringify(rawJSON).replace('{0}', app.node.tryGetContext('env') || ''));
-const config: S3StackProps = replacedJSON;
+// new S3Stack(app, 's3-stack-dev', {
+//   env: devEnv,
+//   // eslint-disable-next-line @typescript-eslint/no-require-imports
+//   ...replaceJSON(require('./config/s3/config_tags.json')),
+// });
 
-new S3Stack(app, 's3-stack-dev', {
+// new SqsStack(app, 'sqs-stack-dev', {
+//   env: devEnv,
+//   // eslint-disable-next-line @typescript-eslint/no-require-imports
+//   ...replacedJSON(require('./config/sqs/sqs-metadata.json')),
+// });
+
+// new SnsStack(app, 'sns-stack-dev', {
+//   env: devEnv,
+//   // eslint-disable-next-line @typescript-eslint/no-require-imports
+//   ...replacedJSON(require('./config/sns/sns-metadata.json')),
+// });
+
+new LambdaStack(app, 'lambda-stack-dev', {
   env: devEnv,
-  ...config,
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  ...replacedJSON(require('./config/lambda/lambda-metadata.json')),
 });
 
 app.synth();
+
+function replacedJSON(rawJSON) {
+  return JSON.parse(JSON.stringify(rawJSON).replace(/\{0\}/g, app.node.tryGetContext('env') || ''));
+}

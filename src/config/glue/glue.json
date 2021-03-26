@@ -1,0 +1,37 @@
+{
+  "Glue": [
+    {
+      "Jobs": [
+        {
+          "JobName": "",
+          "IAMRole": "",
+          "Type": "",
+          "GlueVersion": "",
+          "PythonVersion": "",
+          "Language": "python",
+          "ScriptLocation": "",
+          "JobBookMark": "True",
+          "MaxCapacity": 10,
+          "JobTimeout": 2880,
+          "NoWorkers": 10,
+          "PythonLibPath": "",
+          "JobParameters": [],
+          "TempDirectory": "",
+          "MaxConcurrency": 4,
+          "Tags": [
+            { "Key": "key1", "Value": "value1" },
+            { "Key": "key2", "Value": "value2" },
+            { "Key": "key3", "Value": "value3" }
+          ]
+        }
+      ]
+    },
+    {
+      "Databases": [
+        {
+          "DatabaseName": ""
+        }
+      ]
+    }
+  ]
+}
