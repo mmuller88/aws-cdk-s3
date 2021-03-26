@@ -32,14 +32,10 @@ interface Lambda {
     };
     readonly Environment: {
       Variables: {
-        NOTIFICATION: {
-          Notification: {
-            Topic: string;
-            Subject: string;
-            Vendor: string;
-            Details: string;
-          };
-        };
+        Topic: string;
+        Subject: string;
+        Vendor: string;
+        Details: string;
         DEBUG: string;
       };
     };
@@ -73,7 +69,7 @@ export class LambdaStack extends core.Stack {
           assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
           managedPolicies: [
             iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
-            iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaVPCAccessExecutionRole')
+            iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaVPCAccessExecutionRole'),
           ],
         }),
         environment: {

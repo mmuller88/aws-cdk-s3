@@ -79,6 +79,11 @@
       "type": "runtime"
     },
     {
+      "name": "@aws-cdk/aws-events",
+      "version": "1.91.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-cdk/aws-glue",
       "version": "1.91.0",
       "type": "runtime"

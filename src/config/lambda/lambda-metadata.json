@@ -23,14 +23,10 @@
         },
         "Environment": {
           "Variables": {
-            "NOTIFICATION": {
-              "Notification": {
-                "Topic": "",
-                "Subject": "",
-                "Vendor": "",
-                "Details": ""
-              }
-            },
+            "Topic": "",
+            "Subject": "",
+            "Vendor": "",
+            "Details": "",
             "DEBUG": "True"
           }
         },
@@ -63,14 +59,10 @@
         },
         "Environment": {
           "Variables": {
-            "NOTIFICATION": {
-              "Notification": {
-                "Topic": "",
-                "Subject": "",
-                "Vendor": "",
-                "Details": ""
-              }
-            },
+            "Topic": "",
+            "Subject": "",
+            "Vendor": "",
+            "Details": "",
             "DEBUG": "True"
           }
         },
