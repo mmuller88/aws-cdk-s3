@@ -3,7 +3,7 @@
     {
       "Jobs": [
         {
-          "JobName": "",
+          "JobName": "job1",
           "IAMRole": "",
           "Type": "",
           "GlueVersion": "",
@@ -29,7 +29,7 @@
     {
       "Databases": [
         {
-          "DatabaseName": ""
+          "DatabaseName": "testdb"
         }
       ]
     }

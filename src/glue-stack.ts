@@ -6,8 +6,8 @@ export interface GlueStackProps extends core.StackProps {
 }
 
 interface Glue {
-  readonly Jobs: Job[];
-  readonly Databases: Database[];
+  readonly Jobs?: Job[];
+  readonly Databases?: Database[];
 };
 
 interface Job {
@@ -43,47 +43,48 @@ export class GlueStack extends core.Stack {
     super(scope, id, props);
 
     for (const g of props.Glue) {
-      for (const job of g.Jobs) {
-        const gl = new glue.CfnJob(this, job.JobName, {
-          name: job.JobName,
-          role: job.IAMRole,
-          workerType: job.Type,
-          glueVersion: job.GlueVersion,
-          maxCapacity: job.MaxCapacity,
-          timeout: job.JobTimeout,
-          numberOfWorkers: job.NoWorkers,
-          command: {
-            pythonVersion: job.PythonVersion,
-            scriptLocation: job.ScriptLocation,
-          },
-          executionProperty: {
-            maxConcurrentRuns: job.MaxConcurrency,
-          },
-          // Language ?
-          // JobBookMark ?
-          // PythonLibPath ?
-          // JobParameters ?
-          // TempDirectory ?
-        });
+      if (g.Jobs) {
+        for (const job of g.Jobs) {
+          const gl = new glue.CfnJob(this, job.JobName, {
+            name: job.JobName,
+            role: job.IAMRole,
+            workerType: job.Type ? job.Type : undefined,
+            glueVersion: job.GlueVersion ? job.GlueVersion : undefined,
+            maxCapacity: job.MaxCapacity,
+            timeout: job.JobTimeout,
+            numberOfWorkers: job.NoWorkers,
+            command: {
+              pythonVersion: job.PythonVersion ? job.PythonVersion : undefined,
+              scriptLocation: job.ScriptLocation,
+              name: job.JobName,
+            },
+            executionProperty: {
+              maxConcurrentRuns: job.MaxConcurrency,
+            },
+            defaultArguments: {
+              'job-bookmark-option': job.JobBookMark === 'True' ? 'job-bookmark-enable' : 'job-bookmark-enable',
+              'job-language': job.Language,
+              'TempDir': job.TempDirectory,
+              'scriptLocation': job.PythonLibPath,
+              ...job.JobParameters,
+            },
+          });
 
-        if (job.Tags) {
-          for (const tag of job.Tags) {
-            core.Tags.of(gl).add(tag.Key, tag.Value);
+          if (job.Tags) {
+            for (const tag of job.Tags) {
+              core.Tags.of(gl).add(tag.Key, tag.Value);
+            }
           }
         }
       }
 
-      // for (const database of g.Databases) {
-      //   if (database.DatabaseName != '') {
-      //     new glue.CfnDatabase(this, database.DatabaseName, {
-
-      //     });
-      //   }
-      // }
-
+      if (g.Databases) {
+        for (const database of g.Databases) {
+          new glue.Database(this, database.DatabaseName, {
+            databaseName: database.DatabaseName,
+          });
+        }
+      }
     }
-
-
   }
-
 }
