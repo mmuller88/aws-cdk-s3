@@ -1,9 +1,9 @@
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as core from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
+import * as lambda from '@aws-cdk/aws-lambda';
+import { S3EventSource } from '@aws-cdk/aws-lambda-event-sources';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as sqs from '@aws-cdk/aws-sqs';
-import { S3EventSource } from '@aws-cdk/aws-lambda-event-sources';
+import * as core from '@aws-cdk/core';
 
 export interface LambdaStackProps extends core.StackProps {
   readonly Lambdas: Lambda[];
@@ -12,7 +12,7 @@ export interface LambdaStackProps extends core.StackProps {
 interface Lambda {
   readonly Configuration: {
     readonly FunctionName: string;
-    readonly Runtime: lambda.Runtime;
+    readonly Runtime: string;
     readonly Role: string;
     readonly Handler: string;
     readonly Timeout: number;
@@ -59,13 +59,14 @@ export class LambdaStack extends core.Stack {
       const l = conf.Configuration;
       const lam = new lambda.Function(this, l.FunctionName, {
         functionName: l.FunctionName,
-        runtime: l.Runtime,
-        code: lambda.Code.fromBucket(s3.Bucket.fromBucketName(this, l.Code.S3Bucket, l.Code.S3Bucket), l.Code.S3Key),
+        runtime: new lambda.Runtime(l.Runtime),
+        code: lambda.Code.fromBucket(s3.Bucket.fromBucketName(this, l.Code.S3Bucket + l.FunctionName, l.Code.S3Bucket), l.Code.S3Key),
         handler: l.Handler,
         timeout: core.Duration.seconds(l.Timeout),
         memorySize: l.MemorySize,
         deadLetterQueue: sqs.Queue.fromQueueArn(this, l.FunctionName + 'deadletterqueue', l.DeadLetterConfig.TargetArn),
         role: new iam.Role(this, l.FunctionName + 'Role', {
+          roleName: l.Role,
           assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
           managedPolicies: [
             iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
@@ -78,9 +79,21 @@ export class LambdaStack extends core.Stack {
       });
 
       // eslint-disable-next-line max-len
-      lam.addEventSource(new S3EventSource(s3.Bucket.fromBucketArn(this, l.Events.NotificationEvent.Properties.Bucket, l.Events.NotificationEvent.Properties.Bucket), {
+      // const eventSourceBucket = s3.Bucket.fromBucketArn(this, l.Events.NotificationEvent.Properties.Bucket, l.Events.NotificationEvent.Properties.Bucket);
+
+      const eventSourceBucket = new s3.Bucket(this, 'eventSourceBucket' + l.FunctionName, {
+        removalPolicy: core.RemovalPolicy.DESTROY,
+        autoDeleteObjects: true,
+      });
+
+      // eslint-disable-next-line max-len
+      lam.addEventSource(new S3EventSource(eventSourceBucket, {
         events: [l.Events.NotificationEvent.Properties.Events],
       }));
+
+      // .fromBucketArn(this, l.Events.NotificationEvent.Properties.Bucket, l.Events.NotificationEvent.Properties.Bucket), {
+      //   events: [l.Events.NotificationEvent.Properties.Events],
+      // }));
 
 
       if (l.Tags) {

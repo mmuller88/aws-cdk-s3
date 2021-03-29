@@ -1,7 +1,7 @@
 import { App } from '@aws-cdk/core';
 // import { EventsStack } from './events-stack';
-import { GlueStack } from './glue-stack';
-// import { LambdaStack } from './lambda-stack';
+// import { GlueStack } from './glue-stack';
+import { LambdaStack } from './lambda-stack';
 // import { SnsStack } from './sns-stack';
 // import { S3Stack } from './s3-stack';
 // import { SqsStack } from './sqs-stack';
@@ -31,11 +31,11 @@ const app = new App();
 //   ...replacedJSON(require('./config/sns/sns-metadata.json')),
 // });
 
-// new LambdaStack(app, 'lambda-stack-dev', {
-//   env: devEnv,
-//   // eslint-disable-next-line @typescript-eslint/no-require-imports
-//   ...replacedJSON(require('./config/lambda/lambda-metadata.json')),
-// });
+new LambdaStack(app, 'lambda-stack-dev', {
+  env: devEnv,
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  ...replacedJSON(require('./config/lambda/lambda-metadata.json')),
+});
 
 // new EventsStack(app, 'events-stack-dev', {
 //   env: devEnv,
@@ -43,11 +43,11 @@ const app = new App();
 //   ...replacedJSON(require('./config/events/events-metadata.json')),
 // });
 
-new GlueStack(app, 'glue-stack-dev', {
-  env: devEnv,
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  ...replacedJSON(require('./config/glue/glue.json')),
-});
+// new GlueStack(app, 'glue-stack-dev', {
+//   env: devEnv,
+//   // eslint-disable-next-line @typescript-eslint/no-require-imports
+//   ...replacedJSON(require('./config/glue/glue.json')),
+// });
 
 app.synth();
 

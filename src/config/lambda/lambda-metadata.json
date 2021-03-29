@@ -10,13 +10,13 @@
         "MemorySize": 128,
         "Tags": [],
         "DeadLetterConfig": {
-          "TargetArn": "my-queues-ARN-{0}"
+          "TargetArn": "arn:aws:sqs:eu-central-1:981237193288:ahatestq"
         },
         "Events": {
           "NotificationEvent": {
             "Type": "S3",
             "Properties": {
-              "Bucket": "bucket:arn:..{0}",
+              "Bucket": "arn:aws:s3:::petstore-stack-prod-sitebucket397a1860-38e3yquibhh2",
               "Events": "s3:ObjectCreated:*"
             }
           }
@@ -31,7 +31,7 @@
           }
         },
         "Code": {
-          "S3Bucket": "com-awshub-{0}-<env>-deployment",
+          "S3Bucket": "todolist-pipeline-cdkpipelineartifactsbucket830ad-2rlcuztskxxh",
           "S3Key": "lambdas/awshub-{0}-staged-to-curated-job-launcher.zip"
         }
       }
@@ -40,19 +40,19 @@
       "Configuration": {
         "FunctionName": "awshub-{0}-curated-to-staged-job-launcher",
         "Runtime": "python3.8",
-        "Role": "awshub-{0}-<env>-lambda-role",
+        "Role": "awshub-{0}-lambda-role-2",
         "Handler": "lambda_function.lambda_handler",
         "Timeout": 600,
         "MemorySize": 128,
         "Tags": [],
         "DeadLetterConfig": {
-          "TargetArn": "my-queues-ARN-{0}"
+          "TargetArn": "arn:aws:sqs:eu-central-1:981237193288:ahatestq"
         },
         "Events": {
           "NotificationEvent": {
             "Type": "S3",
             "Properties": {
-              "Bucket": "bucket:arn:--{0}",
+              "Bucket": "arn:aws:s3:::petstore-stack-prod-sitebucket397a1860-38e3yquibhh2",
               "Events": "s3:ObjectCreated:*"
             }
           }
@@ -67,7 +67,7 @@
           }
         },
         "Code": {
-          "S3Bucket": "com-awshub-{0}-<env>-deployment",
+          "S3Bucket": "todolist-pipeline-cdkpipelineartifactsbucket830ad-2rlcuztskxxh",
           "S3Key": "lambdas/awshub-{0}-staged-to-curated-job-launcher.zip"
         }
       }
