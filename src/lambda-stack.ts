@@ -18,7 +18,7 @@ interface Lambda {
     readonly Timeout: number;
     readonly MemorySize: number;
     readonly Tags?: Tag[];
-    readonly DeadLetterConfig: {
+    readonly DeadLetterConfig?: {
       TargetArn: string;
     };
     readonly Events: {
@@ -64,7 +64,7 @@ export class LambdaStack extends core.Stack {
         handler: l.Handler,
         timeout: core.Duration.seconds(l.Timeout),
         memorySize: l.MemorySize,
-        deadLetterQueue: sqs.Queue.fromQueueArn(this, l.FunctionName + 'deadletterqueue', l.DeadLetterConfig.TargetArn),
+        deadLetterQueue: l.DeadLetterConfig ? sqs.Queue.fromQueueArn(this, l.FunctionName + 'deadletterqueue', l.DeadLetterConfig.TargetArn) : undefined,
         role: new iam.Role(this, l.FunctionName + 'Role', {
           roleName: l.Role,
           assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),

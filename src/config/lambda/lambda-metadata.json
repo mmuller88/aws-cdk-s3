@@ -45,9 +45,6 @@
         "Timeout": 600,
         "MemorySize": 128,
         "Tags": [],
-        "DeadLetterConfig": {
-          "TargetArn": "arn:aws:sqs:eu-central-1:981237193288:ahatestq"
-        },
         "Events": {
           "NotificationEvent": {
             "Type": "S3",
