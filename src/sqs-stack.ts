@@ -1,46 +1,41 @@
-import * as sf from '@aws-cdk/aws-stepfunctions';
+import * as sqs from '@aws-cdk/aws-sqs';
 import * as core from '@aws-cdk/core';
 
-export interface StepFunctionsStackProps extends core.StackProps {
-  readonly StepFunctions: StepFunction[];
+export interface SqsStackProps extends core.StackProps {
+  readonly Queues: Queue[];
 }
 
-interface StepFunction {
-  readonly Configuration: {
-    readonly stateMachineArn: string;
-    readonly status: string;
-    readonly stateMachineName: string;
-    stateMachineType: string;
-    definition: any;
-  };
+interface Queue {
+  readonly QueueName: string;
+  readonly DisplayName: string;
+  readonly DelaySeconds: string;
+  readonly MessageRetentionPeriod: string;
+  readonly VisibilityTimeout: string;
+  readonly Tags?: Tag[];
 };
 
-// interface Tag {
-//   Key: string;
-//   Value: string;
-// }
+interface Tag {
+  Key: string;
+  Value: string;
+}
 
-/**
- * CDK doesn't support the definition as a JSON directly https://github.com/aws/aws-cdk/issues/8146
- */
-export class StepFunctionsStack extends core.Stack {
-  constructor(scope: core.Construct, id: string, props: StepFunctionsStackProps) {
+export class SqsStack extends core.Stack {
+  constructor(scope: core.Construct, id: string, props: SqsStackProps) {
     super(scope, id, props);
 
-    for (const s of props.StepFunctions) {
-      const statemachine = new sf.StateMachine(this, s.Configuration.stateMachineName, {
-        definition: new sf.Pass(this, 'StartState'),
+    for (const q of props.Queues) {
+      const queue = new sqs.Queue(this, q.QueueName, {
+        queueName: q.QueueName,
+        deliveryDelay: core.Duration.seconds(Number.parseInt(q.DelaySeconds)),
+        retentionPeriod: core.Duration.minutes(Number.parseInt(q.MessageRetentionPeriod)),
+        visibilityTimeout: core.Duration.seconds(Number.parseInt(q.VisibilityTimeout)),
       });
 
-      const cfnStatemachine = statemachine.node.defaultChild as sf.CfnStateMachine;
-
-      cfnStatemachine.definitionString = JSON.stringify(s.Configuration.definition);
-
-      // if (s.Tags) {
-      //   for (const tag of s.Tags) {
-      //     core.Tags.of(queue).add(tag.Key, tag.Value);
-      //   }
-      // }
+      if (q.Tags) {
+        for (const tag of q.Tags) {
+          core.Tags.of(queue).add(tag.Key, tag.Value);
+        }
+      }
     }
   }
 }

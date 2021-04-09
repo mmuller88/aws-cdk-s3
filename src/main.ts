@@ -2,7 +2,7 @@ import { App } from '@aws-cdk/core';
 // import { EventsStack } from './events-stack';
 // import { GlueStack } from './glue-stack';
 // import { LambdaStack } from './lambda-stack';
-import { StepFunctionsStack } from './sqs-stack';
+import { StepFunctionsStack } from './stepfunctions-stack';
 // import { SnsStack } from './sns-stack';
 // import { S3Stack } from './s3-stack';
 // import { SqsStack } from './sqs-stack';
