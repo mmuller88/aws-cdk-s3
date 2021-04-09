@@ -1,0 +1,216 @@
+{
+  "StepFunctions": [
+    {
+      "Configuration": {
+        "stateMachineArn": "arn:aws:states:us-east-1:123456:stateMachine:awshub-customermatch-{0}",
+        "status": "ACTIVE",
+        "stateMachineName": "awshub-customermatch-{0}",
+        "roleArn": "arn:aws:iam::123456:user/cdkuser",
+        "stateMachineType": "STANDARD",
+        "definition": {
+          "Comment": "awshub Customer Match",
+          "StartAt": "Initialize",
+          "States": {
+            "Initialize": {
+              "Type": "Pass",
+              "Parameters": {
+                "run_environ": "DEV",
+                "state_code_list1": [
+                  "US",
+                  "AA",
+                  "AS",
+                  "MP",
+                  "VI",
+                  "GU",
+                  "AE",
+                  "AP",
+                  "PR"
+                ],
+                "state_code_list2": [
+                  "VT",
+                  "DC",
+                  "RI",
+                  "WY",
+                  "AK",
+                  "DE",
+                  "NH",
+                  "ND",
+                  "SD",
+                  "HI"
+                ],
+                "state_code_list3": [
+                  "ME",
+                  "ID",
+                  "MT",
+                  "NM",
+                  "WV",
+                  "NE",
+                  "UT",
+                  "NV",
+                  "MS",
+                  "CT"
+                ],
+                "state_code_list4": [
+                  "OR",
+                  "AR",
+                  "IA",
+                  "KS",
+                  "MN",
+                  "MD",
+                  "LA",
+                  "AL",
+                  "OK",
+                  "MA"
+                ],
+                "state_code_list5": [
+                  "CO",
+                  "AZ",
+                  "SC",
+                  "WA",
+                  "VA",
+                  "KY",
+                  "NJ",
+                  "WI",
+                  "MO",
+                  "TN"
+                ],
+                "state_code_list6": [
+                  "IN",
+                  "MI",
+                  "GA",
+                  "NC",
+                  "OH",
+                  "IL",
+                  "PA",
+                  "NY",
+                  "FL",
+                  "TX",
+                  "CA"
+                ]
+              },
+              "Next": "Start Parallel Customer Load Jobs"
+            },
+            "Start Parallel Customer Load Jobs": {
+              "Type": "Parallel",
+              "Branches": [
+                {
+                  "StartAt": "Process chain2 Customer Data",
+                  "States": {
+                    "Process chain2 Customer Data": {
+                      "Type": "Task",
+                      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+                      "Parameters": {
+                        "JobName": "awshub-integration-customermatch-processchain2CustomerData-{0}",
+                        "Arguments": {
+                          "--run_environ.$": "$.run_environ"
+                        }
+                      },
+                      "End": true
+                    }
+                  }
+                },
+                {
+                  "StartAt": "Process Chain2 Customer Data",
+                  "States": {
+                    "Process Chain2 Customer Data": {
+                      "Type": "Task",
+                      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+                      "Parameters": {
+                        "JobName": "awshub-integration-customermatch-processChain2CustomerData-{0}",
+                        "Arguments": {
+                          "--run_environ.$": "$.run_environ"
+                        }
+                      },
+                      "End": true
+                    }
+                  }
+                }
+              ],
+              "ResultPath": null,
+              "Next": "Post-Transformation",
+              "Catch": [
+                {
+                  "ErrorEquals": ["States.ALL"],
+                  "Next": "ETL Job Failed Fallback"
+                }
+              ]
+            },
+            "Post-Transformation": {
+              "Type": "Pass",
+              "Next": "Start Parallel Customer Match Jobs"
+            },
+            "Start Parallel Customer Match Jobs": {
+              "Type": "Parallel",
+              "Branches": [
+                {
+                  "StartAt": "State Code List 1",
+                  "States": {
+                    "State Code List 1": {
+                      "Type": "Task",
+                      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+                      "Parameters": {
+                        "JobName": "awshub-integration-customermatch-StateCodeList-{0}",
+                        "Arguments": {
+                          "--run_environ.$": "$.run_environ",
+                          "--state_cd_list.$": "$.state_code_list1"
+                        }
+                      },
+                      "End": true
+                    }
+                  }
+                },
+                {
+                  "StartAt": "State Code List 2",
+                  "States": {
+                    "State Code List 2": {
+                      "Type": "Task",
+                      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+                      "Parameters": {
+                        "JobName": "awshub-integration-customermatch-StateCodeList-{0}",
+                        "Arguments": {
+                          "--run_environ.$": "$.run_environ",
+                          "--state_cd_list.$": "$.state_code_list2"
+                        }
+                      },
+                      "End": true
+                    }
+                  }
+                }
+              ],
+              "ResultPath": null,
+              "Next": "Create Matched Customers Table",
+              "Catch": [
+                {
+                  "ErrorEquals": ["States.ALL"],
+                  "Next": "ETL Job Failed Fallback"
+                }
+              ]
+            },
+            "Create Matched Customers Table": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::glue:startJobRun.sync",
+              "Parameters": {
+                "JobName": "awshub-integration-customermatch-createMatchedCustomerData-{0}",
+                "Arguments": {
+                  "--run_environ.$": "$.run_environ"
+                }
+              },
+              "Catch": [
+                {
+                  "ErrorEquals": ["States.ALL"],
+                  "Next": "ETL Job Failed Fallback"
+                }
+              ],
+              "End": true
+            },
+            "ETL Job Failed Fallback": {
+              "Type": "Pass",
+              "Result": "This is a fallback from an ETL job failure.",
+              "End": true
+            }
+          }
+        }
+      }
+    }
+  ]
+}

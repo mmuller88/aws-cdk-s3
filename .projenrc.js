@@ -21,6 +21,7 @@ const project = new AwsCdkTypeScriptApp({
     '@aws-cdk/aws-sns',
     '@aws-cdk/aws-glue',
     '@aws-cdk/aws-events',
+    '@aws-cdk/aws-stepfunctions',
     '@aws-cdk/aws-sns-subscriptions',
     '@aws-cdk/aws-lambda-event-sources',
   ],

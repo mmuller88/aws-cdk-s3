@@ -435,6 +435,19 @@
     "@aws-cdk/core" "1.91.0"
     constructs "^3.2.0"
 
+"@aws-cdk/aws-stepfunctions@1.91.0":
+  version "1.91.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-stepfunctions/-/aws-stepfunctions-1.91.0.tgz#2c536e50a67e8a0124c24c6198b805152c16965d"
+  integrity sha512-uutH2src0ik6h/nKXJ+WJPg7DeOIjGOMmliAt++shsodIWhVYzZ8nbDRAtF4JwVRQjDZninal+OzSi8fmy7WeQ==
+  dependencies:
+    "@aws-cdk/aws-cloudwatch" "1.91.0"
+    "@aws-cdk/aws-events" "1.91.0"
+    "@aws-cdk/aws-iam" "1.91.0"
+    "@aws-cdk/aws-logs" "1.91.0"
+    "@aws-cdk/aws-s3" "1.91.0"
+    "@aws-cdk/core" "1.91.0"
+    constructs "^3.2.0"
+
 "@aws-cdk/cfnspec@1.91.0":
   version "1.91.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/cfnspec/-/cfnspec-1.91.0.tgz#6fa6db46241ac3e42731cce18cb9070bba0a7692"
