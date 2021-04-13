@@ -1,4 +1,5 @@
 import * as sf from '@aws-cdk/aws-stepfunctions';
+import * as iam from '@aws-cdk/aws-iam';
 import * as core from '@aws-cdk/core';
 
 export interface StepFunctionsStackProps extends core.StackProps {
@@ -30,6 +31,8 @@ export class StepFunctionsStack extends core.Stack {
     for (const s of props.StepFunctions) {
       const statemachine = new sf.StateMachine(this, s.Configuration.stateMachineName, {
         definition: new sf.Pass(this, 'StartState'),
+        role: iam.Role.fromRoleArn(this, `${s.Configuration.stateMachineName}-arn`, s.Configuration.stateMachineArn),
+        stateMachineType: s.Configuration.stateMachineType as sf.StateMachineType,
       });
 
       const cfnStatemachine = statemachine.node.defaultChild as sf.CfnStateMachine;
